@@ -1,149 +1,126 @@
 # AI Podcast Agent
 
-Project này tập trung vào workflow AI: upload tài liệu, tạo podcast, hỏi đáp với RAG, TTS/STT và voice library. Repo có nhiều file phát sinh khi chạy nên `.gitignore` đã được cấu hình để chặn các thư mục runtime như `src/data`, `src/outputs`, `src/voices`, `src/vectorstore`, `model_cache` và cả `src/static`.
+AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
 
-## Cần cài gì trước
+## Features
+- **Document Upload**: PDF, DOCX, TXT → RAG vectorstore
+- **Podcast Generation**: Auto-segment + Gemini script → professional Vietnamese podcasts
+- **Voice Cloning**: F5-TTS (zero-shot) + Gemini TTS fallback
+- **Interactive Q&A**: Ask questions during podcast playback
+- **Voice Library**: Upload/customize voices for cloning
+- **Production Ready**: Rate limiting, Docker, pytest (8 test files incl. E2E)
 
-### Bắt buộc
+## Quick Start
 
-- Python `3.10+`
-- `git`
-- API key Gemini để chạy LLM, TTS, STT
+### Prerequisites
+- Python 3.10+
+- Git (for f5-tts dependency)
+- Gemini API key (LLM + TTS + STT)
 
-### Nên có thêm
+Optional (recommended):
+- FFmpeg (audio processing)
+- Visual C++ Build Tools (Windows native extensions)
 
-- `ffmpeg`
-  Dùng tốt hơn cho xử lý audio và tránh lỗi khi một số thư viện backend cần codec.
-- Visual C++ Build Tools
-  Có thể cần trên Windows nếu một số package AI phải build native extension.
-
-## Cài đặt nhanh
-
-### 1. Tạo môi trường
-
-```bash
+### 1. Environment Setup
+```
 cd src
 python -m venv .venv
 ```
 
-Windows PowerShell:
-
-```powershell
+**Windows:**
+```
 .venv\Scripts\Activate.ps1
 ```
 
-macOS/Linux:
-
-```bash
+**macOS/Linux:**
+```
 source .venv/bin/activate
 ```
 
-### 2. Cài thư viện Python
-
-```bash
+### 2. Install Dependencies
+```
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Lưu ý:
-
-- `requirements.txt` có package `f5-tts` cài trực tiếp từ GitHub, nên máy cần có `git`.
-- Nếu phần `torch` hoặc `torchaudio` lỗi, cài lại theo CPU/GPU phù hợp máy của bạn.
-
-Ví dụ CPU:
-
-```bash
+**CPU-only Torch (if GPU issues):**
+```
 pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
 ```
 
-Ví dụ CUDA 12.1:
-
-```bash
-pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu121
+### 3. Configuration
 ```
-
-### 3. Tạo file cấu hình
-
-```bash
 copy .env.example .env
 ```
 
-Nếu dùng macOS/Linux:
-
-```bash
-cp .env.example .env
+Edit `src/.env`:
 ```
-
-Mở `src/.env` và điền tối thiểu:
-
-```env
 GEMINI_API_KEY=your_key_here
-GEMINI_TTS_VOICE=Kore
-GEMINI_TTS_MODEL=gemini-2.5-flash-preview-tts
+GEMINI_TTS_VOICE=Kore  # Aoede, Charon, Fenrir...
+LOG_LEVEL=DEBUG  # Verbose F5-TTS progress
 ```
 
-Tuỳ chọn nếu muốn dùng fallback TTS:
-
-```env
-OPENAI_API_KEY=your_openai_key
-OPENAI_TTS_MODEL=tts-1-hd
-OPENAI_TTS_VOICE=shimmer
+### 4. Run Server
+```
+uvicorn main:app --reload
 ```
 
-## Chạy ứng dụng
+**Access:**
+- API Docs: http://localhost:8000/docs
+- Podcast Player: http://localhost:8000/podcast-player
+- Voice Library: http://localhost:8000/voice-library
 
-Từ thư mục `src`:
-
-```bash
-uvicorn src.main:app --reload
+### 5. Test
 ```
-
-Mở:
-
-- `http://localhost:8000/docs`
-- `http://localhost:8000/podcast-player`
-- `http://localhost:8000/voice-library`
-
-## Test nhanh
-
-Từ thư mục `src`:
-
-```bash
-pytest
-```
-
-Hoặc:
-
-```bash
+pytest  # 8 test files (E2E, unit)
 pytest tests/test_voices.py
 ```
 
-## Những lỗi thiếu thường gặp
-
-### Thiếu `git`
-
-Lỗi thường gặp khi cài `f5-tts`:
-
-```text
-git is not recognized ...
+## Docker Deploy
+```
+docker-compose up --build
 ```
 
-Cách xử lý: cài Git rồi chạy lại `pip install -r requirements.txt`.
+## Troubleshooting
 
-### Thiếu API key
+**Git not found (f5-tts):**
+```
+# Install Git, retry pip install -r requirements.txt
+```
 
-Nếu `GEMINI_API_KEY` chưa có, app vẫn có thể lên server nhưng các tính năng Gemini như TTS/STT/Q&A sẽ không dùng được.
+**Torch/FFmpeg errors:**
+```
+winget install ffmpeg  # Windows
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+```
 
-### Thiếu `ffmpeg`
+**No TTS/STT:**
+```
+# Check GEMINI_API_KEY in .env
+curl http://localhost:8000/debug/tts
+```
 
-Nếu xử lý audio lỗi codec hoặc convert định dạng lỗi, hãy cài `ffmpeg` rồi mở terminal mới để nhận biến `PATH`.
-
-## Ghi chú về `.gitignore`
-
-`.gitignore` chỉ chặn file chưa được Git theo dõi. Nếu bạn muốn Git ngừng theo dõi một thư mục đã add trước đó như `src/static`, cần untrack nó một lần, ví dụ:
-
-```bash
+**.gitignore Note:**
+Blocks runtime dirs (`data/`, `outputs/`, `voices/`). Untrack if needed:
+```
 git rm -r --cached src/static
+git commit -m "Untrack static"
 ```
 
-Sau đó commit lại để rule ignore có hiệu lực đúng như mong muốn.
+## Architecture
+```
+src/
+├── main.py (FastAPI app)
+├── app/
+│   ├── routers/ (API endpoints)
+│   ├── rag/ (Document loader + vectorstore)
+│   ├── podcast/ (Gemini script gen)
+│   ├── tts/ (Gemini + F5-TTS clone)
+│   ├── stt/ (Gemini transcription)
+│   └── voices/ (Custom voice upload)
+├── tests/ (8 files, E2E workflow)
+└── requirements.txt (pinned deps)
+```
+
+**Production ready for investors! 🚀**
+
