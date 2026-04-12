@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+src/.env
+src/.env.*
+!src/.env.example
+
+# AI runtime data and generated assets
+data/
+outputs/
+voices/
+model_cache/
+static/
+src/data/
+src/outputs/
+src/voices/
+src/vectorstore/
+src/static/
+
+# Audio / document outputs
+*.wav
+*.mp3
+*.m4a
+*.ogg
+*.flac
+*.webm
+*.mp4
+*.pdf
+*.docx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

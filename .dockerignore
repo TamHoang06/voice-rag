@@ -1,0 +1,51 @@
+# ── Python cache ─────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ── Virtual environment ──────────────────────
+venv/
+.env
+src/.env
+.venv/
+
+# ── Git ─────────────────────────────────────
+.git/
+.gitignore
+
+# ── Logs ────────────────────────────────────
+*.log
+
+# ── OS files ────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Data & upload  ──────────────────────────
+data/
+
+# ── Vector store (FAISS index) ──────────────
+vectorstore/
+
+# ── Model cache ─────────────────────────────
+.cache/
+huggingface/
+*.bin
+*.pt
+*.pth
+
+# ── Audio output ────────────────────────────
+*.wav
+*.mp3
+
+# ── Test / temp files ───────────────────────
+test_*.py
+*.tmp
+
+# ── IDE ─────────────────────────────────────
+.vscode/
+.idea/
+
+# ── Docker  ─────────────────────────────────
+docker-compose.yml
+Dockerfile
