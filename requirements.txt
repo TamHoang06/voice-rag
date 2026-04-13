@@ -1,14 +1,20 @@
-# Core Framework
+setuptools>=61.0
+setuptools-scm>=8.0
+wheel
+
+# --- Core Framework ---
 fastapi>=0.111.0
 uvicorn[standard]>=0.29.0
 python-multipart>=0.0.9
+python-dotenv>=1.0.1
+pydantic-settings>=2.2.1
 
-# PyTorch (CPU version)
---index-url https://download.pytorch.org/whl/cpu
+# --- PyTorch (CPU version) ---
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch>=2.3.0
 torchaudio>=2.3.0
 
-# RAG stack
+# --- RAG stack ---
 sentence-transformers==2.7.0
 langchain>=0.2.0
 langchain-community>=0.2.0
@@ -18,19 +24,22 @@ faiss-cpu>=1.8.0
 transformers>=4.41.0
 accelerate>=0.30.0
 
-# Document loaders
+# --- Document loaders & Generation ---
 pypdf>=4.2.0
 docx2txt>=0.8
-
-# F5-TTS
-f5-tts @ git+https://github.com/SWivid/F5-TTS.git
-
-# Audio & Media
-soundfile>=0.12.1
-numpy>=1.26.0
-
-# Document Generation với hình ảnh 
 python-docx>=1.1.0
-Pillow>=10.0.0
 reportlab>=4.0.0
+Pillow>=10.0.0
+
+# --- Audio & Media Processing ---
+soundfile>=0.12.1
+audioread>=3.0.1
+librosa>=0.10.1
+numpy>=1.26.0
 requests>=2.31.0
+
+# --- AI Models & API ---
+google-generativeai>=0.5.0
+
+# --- F5-TTS ---
+f5-tts @ git+https://github.com/SWivid/F5-TTS.git

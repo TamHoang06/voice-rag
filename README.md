@@ -1,4 +1,4 @@
-# AI Podcast Agent
+# # AI Voice Agent
 
 AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
 
@@ -65,13 +65,6 @@ RATE_LIMIT_REQUESTS=100
 ```
 uvicorn main:app --reload --port 8000
 ```
-
-**Access UIs:**
-- API Docs: http://localhost:8000/docs
-- **Podcast Player**: http://localhost:8000/podcast-player ← **MAIN DEMO**
-- Voice Library: http://localhost:8000/voice-library
-- Health: http://localhost:8000/health
-- Debug TTS: http://localhost:8000/debug/tts
 
 ### 5. Test Suite
 ```
@@ -149,7 +142,7 @@ voice-rag/
     ├── .env.example            # Template for environment variables
     ├── main.py                 # Application entry point
     ├── pytest.ini              # Pytest configuration
-    └── app/                    # 🚀 CORE LOGIC (Deep Structure)
+    └── app/                    # CORE LOGIC (Deep Structure)
         ├── __init__.py         # Package marker
         ├── config.py           # App settings & Voice configurations
         ├── utils.py            # Shared utility functions
@@ -180,5 +173,5 @@ voice-rag/
 | Tests | pytest (E2E + unit) |
 | Deploy | Docker Compose |
 
-**Zero-config production → Investor demo-ready! 🚀**
+**Zero-config production → Investor demo-ready! **
 
