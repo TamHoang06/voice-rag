@@ -1,3 +1,6 @@
+
+https://github.com/user-attachments/assets/4afdf234-e48f-4dc1-a0e8-4554ad99e834
+<img width="695" height="347" alt="Rag_Select" src="https://github.com/user-attachments/assets/bc018843-3fca-4da7-9259-760318dca412" />
 # # AI Voice Agent
 
 AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
@@ -19,18 +22,26 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 ### 1. RAG review
 - Demonstration video: review the RAG workflow, including document ingestion, vector store creation, and model-driven question answering.
 
-- Select chapter & Voice
+- Select chapter & Voice:
 
+<img width="695" height="347" alt="Rag_Select" src="https://github.com/user-attachments/assets/296bc299-13ff-45d8-9502-5ef43b0717cd" />
 
 - Placeholder video:
+
+
+https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
 
 
 ### 2. Text-based Q&A
 - Demonstration video: interact with the AI Q&A interface by entering text queries and reviewing the system’s responses.
-- Placeholder image:
-
-
+- 
 - Placeholder video:
+
+
+
+
+https://github.com/user-attachments/assets/51946d88-f888-4302-866d-cd48c1a7c199
+
 
 
 ### 3. Voice-based Q&A
@@ -39,10 +50,19 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 - Placeholder video:
 
 
+
+
+https://github.com/user-attachments/assets/82fc461d-c701-48af-9783-44c6392f378e
+
+
 ### 4. Gemini TTS voices
 - Demonstration video: generate speech using Gemini’s built-in AI voice options and compare different voice outputs.
 
 - Placeholder video:
+
+
+https://github.com/user-attachments/assets/25c85eac-5ccb-4f50-b411-3fa8509cc1f5
+
 
 
 ### 5. Upload audio assets
@@ -51,10 +71,14 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 - Placeholder video:
 
 
+
+
+
 ### 6. Record audio assets
 - Demonstration video: record audio directly into the repository and save it for later retrieval or processing.
 
 - Placeholder video:
+
 
 
 ## Quick Start
