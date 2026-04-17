@@ -1,6 +1,5 @@
 
 https://github.com/user-attachments/assets/4afdf234-e48f-4dc1-a0e8-4554ad99e834
-<img width="695" height="347" alt="Rag_Select" src="https://github.com/user-attachments/assets/bc018843-3fca-4da7-9259-760318dca412" />
 # # AI Voice Agent
 
 AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
@@ -21,21 +20,18 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 ## Demo
 ### 1. RAG review
 - Demonstration video: review the RAG workflow, including document ingestion, vector store creation, and model-driven question answering.
-- Placeholder image:
 
 - Select chapter & Voice
 
+<img width="695" height="347" alt="Rag_Select" src="https://github.com/user-attachments/assets/bc018843-3fca-4da7-9259-760318dca412" />
 
 - Placeholder video:
 
-
 https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
 
-  `![RAG Review Video](path/to/rag-review-video.mp4)`
 
 ### 2. Text-based Q&A
 - Demonstration video: interact with the AI Q&A interface by entering text queries and reviewing the system’s responses.
-- Placeholder image:
 
 
 - Placeholder video:
@@ -43,25 +39,19 @@ https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
 
 ### 3. Voice-based Q&A
 - Demonstration video: speak a question into the platform and receive an AI answer using voice-enabled Q&A.
-- Placeholder image:
 
-  `![Voice Q&A](path/to/voice-qa-image.png)`
 - Placeholder video:
 
 
 ### 4. Gemini TTS voices
 - Demonstration video: generate speech using Gemini’s built-in AI voice options and compare different voice outputs.
-- Placeholder image:
 
-  `![Gemini TTS](path/to/gemini-tts-image.png)`
 - Placeholder video:
 
 
 ### 5. Upload audio assets
 - Demonstration video: add audio files to the project repository and use them as input for processing or playback.
-- Placeholder image:
 
-  `![Audio Upload](path/to/audio-upload-image.png)`
 - Placeholder video:
 
 
