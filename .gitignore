@@ -41,6 +41,7 @@ src/static/
 *.flac
 *.webm
 *.mp4
+!assets/*.mp4
 *.pdf
 *.docx
 
