@@ -26,6 +26,7 @@ data/
 outputs/
 voices/
 model_cache/
+assets/
 static/
 src/data/
 src/outputs/
@@ -41,7 +42,6 @@ src/static/
 *.flac
 *.webm
 *.mp4
-!assets/*.mp4
 *.pdf
 *.docx
 

@@ -16,27 +16,45 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 - **Production Ready**: Rate limiting, Docker, pytest (8 test files incl. full E2E workflow), health checks
 
 ## Demo
-### 1. RAG demo
-- Video analyzing RAG functionality: document querying, vectorstore creation, and answering questions with RAG.
+### 1. RAG review
+- Demonstration video: review the RAG workflow, including document ingestion, vector store creation, and model-driven question answering.
 
-- Ảnh minh hoạ: 
+- Select chapter & Voice
 
-  `![RAG Demo](path/to/rag-demo-image.png)`
 
-- Video demo: 
+- Placeholder video:
 
-  <video src="assets/Rag(1).mp4" width="100%" controls></video>
 
-### 2. TTS demo
-- Video features TTS: upload voice samples, manage voices, select voice clones.
+### 2. Text-based Q&A
+- Demonstration video: interact with the AI Q&A interface by entering text queries and reviewing the system’s responses.
+- Placeholder image:
 
-- Ảnh minh hoạ:
 
-  `![Voice Library Demo](path/to/voice-library-demo-image.png)`
+- Placeholder video:
 
-- Video demo: 
 
-  `![Voice Library Demo](path/to/voice-library-demo-video.mp4)`
+### 3. Voice-based Q&A
+- Demonstration video: speak a question into the platform and receive an AI answer using voice-enabled Q&A.
+
+- Placeholder video:
+
+
+### 4. Gemini TTS voices
+- Demonstration video: generate speech using Gemini’s built-in AI voice options and compare different voice outputs.
+
+- Placeholder video:
+
+
+### 5. Upload audio assets
+- Demonstration video: add audio files to the project repository and use them as input for processing or playback.
+
+- Placeholder video:
+
+
+### 6. Record audio assets
+- Demonstration video: record audio directly into the repository and save it for later retrieval or processing.
+
+- Placeholder video:
 
 
 ## Quick Start
