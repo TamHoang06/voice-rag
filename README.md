@@ -226,11 +226,8 @@ Blocks runtime (`data/`, `outputs/`, `voices/`, `vectorstore/`). Clean repo.
 VOICE-AGENT/
 ├── .dockerignore               # Docker exclusion rules
 ├── .gitignore                  # Git exclusion rules
-├── CODEBASE_ANALYSIS.md        # Technical analysis of the codebase
-├── CODEBASE_ANALYSIS_REPORT.md # Summary report of codebase health
 ├── Dockerfile                  # Container build instructions
 ├── docker-compose.yml          # Multi-container orchestration
-├── QUICK_SUMMARY.md            # High-level project overview
 ├── README.md                   # Main documentation
 ├── SECURITY_ROTATION_CHECKLIST.md # Security & Key rotation guide
 ├── TODO.md                     # Roadmap and pending tasks
