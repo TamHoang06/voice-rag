@@ -1,6 +1,3 @@
-
-https://github.com/user-attachments/assets/5a852cf2-142f-4e2f-a080-3711ab62c258
-
 # AI Voice Agent
 
 AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
