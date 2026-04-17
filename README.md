@@ -1,4 +1,6 @@
 
+https://github.com/user-attachments/assets/5a852cf2-142f-4e2f-a080-3711ab62c258
+
 # AI Voice Agent
 
 AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
@@ -151,7 +153,10 @@ This project is a Voice Agent built with Python, using FastAPI as the main web f
 - Placeholder video:
 
 
-https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
+
+https://github.com/user-attachments/assets/3f47fb5e-6d67-49c1-9dc1-b84560875d58
+
+
 
 - Divide the document into concise sections:
 
@@ -168,8 +173,7 @@ https://github.com/user-attachments/assets/2b00977e-c976-46b2-822d-e062b601b719
 
 - Placeholder video:
 
-
-https://github.com/user-attachments/assets/ce8eca08-f5fb-4aa5-b4ed-7393bed0fa5f
+https://github.com/user-attachments/assets/44f4e895-2abb-40cd-9abd-2218081c86b1
 
 
 
@@ -179,7 +183,11 @@ https://github.com/user-attachments/assets/ce8eca08-f5fb-4aa5-b4ed-7393bed0fa5f
 - Placeholder video:
 
 
-https://github.com/user-attachments/assets/f35a7a21-bd06-4204-aa44-b3f0a6f7f981
+
+
+https://github.com/user-attachments/assets/b73e1474-6a14-4590-b975-ba0a9a479458
+
+
 
 
 
@@ -190,7 +198,10 @@ https://github.com/user-attachments/assets/f35a7a21-bd06-4204-aa44-b3f0a6f7f981
 
 
 
-https://github.com/user-attachments/assets/67981e56-2c45-47ae-a995-d7f1e5a6583c
+
+https://github.com/user-attachments/assets/34a2f642-d8a3-45b2-a2eb-d261ad80e0bf
+
+
 
 
 
@@ -200,12 +211,7 @@ https://github.com/user-attachments/assets/67981e56-2c45-47ae-a995-d7f1e5a6583c
 - Placeholder video:
 
 
-
-
-
-https://github.com/user-attachments/assets/a217a418-9eef-443a-8483-dec78357d9c0
-
-
+https://github.com/user-attachments/assets/ee3bef46-c62a-4965-96f0-11f11c1f26d9
 
 
 
@@ -219,8 +225,8 @@ https://github.com/user-attachments/assets/a217a418-9eef-443a-8483-dec78357d9c0
 
 
 
+https://github.com/user-attachments/assets/b8fb5e8a-4b39-495b-9a65-95cbecbbe7a1
 
-https://github.com/user-attachments/assets/25abb3c9-17fd-48d5-8797-6b96f6723bba
 
 
 
