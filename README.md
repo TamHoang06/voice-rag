@@ -18,43 +18,59 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 ## Demo
 ### 1. RAG review
 - Demonstration video: review the RAG workflow, including document ingestion, vector store creation, and model-driven question answering.
+- Placeholder image:
 
-- Select chapter & Voice
-
-
+  `![RAG Review](path/to/rag-review-image.png)`
 - Placeholder video:
 
+  `![RAG Review Video](path/to/rag-review-video.mp4)`
 
 ### 2. Text-based Q&A
 - Demonstration video: interact with the AI Q&A interface by entering text queries and reviewing the system’s responses.
 - Placeholder image:
 
-
+  `![Text Q&A](path/to/text-qa-image.png)`
 - Placeholder video:
-
+  `![Text Q&A Video](path/to/text-qa-video.mp4)`
 
 ### 3. Voice-based Q&A
 - Demonstration video: speak a question into the platform and receive an AI answer using voice-enabled Q&A.
+- Placeholder image:
 
+  `![Voice Q&A](path/to/voice-qa-image.png)`
 - Placeholder video:
+
+  `![Voice Q&A Video](path/to/voice-qa-video.mp4)`
 
 
 ### 4. Gemini TTS voices
 - Demonstration video: generate speech using Gemini’s built-in AI voice options and compare different voice outputs.
+- Placeholder image:
 
+  `![Gemini TTS](path/to/gemini-tts-image.png)`
 - Placeholder video:
+
+  `![Gemini TTS Video](path/to/gemini-tts-video.mp4)`
 
 
 ### 5. Upload audio assets
 - Demonstration video: add audio files to the project repository and use them as input for processing or playback.
+- Placeholder image:
 
+  `![Audio Upload](path/to/audio-upload-image.png)`
 - Placeholder video:
+
+  `![Audio Upload Video](path/to/audio-upload-video.mp4)`
 
 
 ### 6. Record audio assets
 - Demonstration video: record audio directly into the repository and save it for later retrieval or processing.
+- Placeholder image:
 
+  `![Audio Recording](path/to/audio-recording-image.png)`
 - Placeholder video:
+
+  `![Audio Recording Video](path/to/audio-recording-video.mp4)`
 
 
 ## Quick Start
@@ -118,7 +134,6 @@ uvicorn main:app --reload --port 8000
 pytest  # 100% workflow coverage
 pytest tests/test_e2e_flow.py::test_e2e_positive_full_pipeline  # Upload→Podcast→TTS→STT
 ```
-
 ## Docker Production Deploy
 ```
 docker-compose up --build
@@ -128,13 +143,43 @@ docker-compose up --build
 - Volume mounts for persistence
 
 ## API Endpoints
+
+### Document Management
 ```
-POST /upload (PDF/DOCX) → RAG vectorstore
-POST /podcast/generate → Gemini script
-POST /text-to-speech → F5-TTS clone OR Gemini TTS
-POST /podcast/qa → RAG Q&A
-POST /voices/upload → Custom voice library
-GET /download/{file} → Audio export
+POST /upload                          → Upload PDF/DOCX/TXT & create RAG vectorstore
+GET  /documents                       → List all uploaded documents
+POST /documents/{document_id}/select  → Select active document
+GET  /document                        → Get current document metadata
+GET  /document/summary                → Get AI-generated summary of document
+POST /ask                             → Q&A on current document (text)
+POST /generate-docx                   → Export Q&A results to DOCX
+POST /generate-pdf                    → Export Q&A results to PDF
+POST /re-analyze-images               → Reanalyze document images with Gemini Vision
+```
+
+### Podcast Generation & Playback
+```
+POST /podcast/generate                → Generate podcast script from document
+GET  /podcast/script                  → Get generated podcast script
+POST /podcast/tts/summary             → Convert summary to speech (F5-TTS/Gemini)
+POST /podcast/tts/{segment_index}     → Convert specific segment to speech
+POST /podcast/qa                      → Q&A on podcast (text-based)
+POST /podcast/qa/voice                → Q&A on podcast (voice-based with STT)
+```
+
+### Voice Library & TTS
+```
+GET  /voices/available                → List all available voices (all providers)
+GET  /voices/available/{provider}     → List voices by provider (gemini, f5)
+GET  /voices/providers                → List supported voice providers
+POST /voices/upload                   → Upload voice sample for F5-TTS cloning
+POST /voices/set-active               → Set active voice for text-to-speech
+POST /text-to-speech                  → Text-to-speech with selected voice
+```
+
+### File Management
+```
+GET  /download/{filename}             → Download generated audio/documents
 ```
 
 ## Troubleshooting
@@ -170,7 +215,7 @@ Blocks runtime (`data/`, `outputs/`, `voices/`, `vectorstore/`). Clean repo.
 
 ## Architecture Tree
 ```
-voice-rag/
+VOICE-AGENT/
 ├── .dockerignore               # Docker exclusion rules
 ├── .gitignore                  # Git exclusion rules
 ├── CODEBASE_ANALYSIS.md        # Technical analysis of the codebase
