@@ -74,11 +74,25 @@ https://github.com/user-attachments/assets/67981e56-2c45-47ae-a995-d7f1e5a6583c
 
 
 
+https://github.com/user-attachments/assets/a217a418-9eef-443a-8483-dec78357d9c0
+
+
+
+
+
 
 ### 6. Record audio assets
 - Demonstration video: record audio directly into the repository and save it for later retrieval or processing.
 
 - Placeholder video:
+
+
+
+
+
+
+https://github.com/user-attachments/assets/25abb3c9-17fd-48d5-8797-6b96f6723bba
+
 
 
 ## Quick Start
