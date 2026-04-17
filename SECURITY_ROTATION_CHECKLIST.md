@@ -4,10 +4,8 @@ Use this checklist immediately after removing hard-coded secrets from the repo.
 
 ## Immediate actions
 
-1. Rotate the exposed `OPENAI_API_KEY`.
-2. Rotate the exposed `AZURE_API_KEY`.
-3. Rotate the exposed `GEMINI_API_KEY`.
-4. Verify old keys are revoked, not just regenerated.
+1. Rotate the exposed `GEMINI_API_KEY`.
+2. Verify old keys are revoked, not just regenerated.
 
 ## Repo cleanup
 

@@ -4,11 +4,40 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 
 ## Features
 - **Document Upload**: PDF, DOCX, TXT → RAG vectorstore with image analysis
+
 - **Podcast Generation**: Auto-segment + Gemini script → professional Vietnamese podcasts with segment timing
+
 - **Voice Cloning**: F5-TTS (zero-shot voice cloning from 10s sample) + Gemini TTS fallback (9 voices)
+
 - **Interactive Q&A**: Real-time RAG questions during podcast playback
+
 - **Voice Library**: Upload/customize/reference voices for cloning (active voice auto-use)
+
 - **Production Ready**: Rate limiting, Docker, pytest (8 test files incl. full E2E workflow), health checks
+
+## Demo
+### 1. RAG demo
+- Video analyzing RAG functionality: document querying, vectorstore creation, and answering questions with RAG.
+
+- Ảnh minh hoạ: 
+
+  `![RAG Demo](path/to/rag-demo-image.png)`
+
+- Video demo: 
+
+  <video src="assets/Rag(1).mp4" width="100%" controls></video>
+
+### 2. TTS demo
+- Video features TTS: upload voice samples, manage voices, select voice clones.
+
+- Ảnh minh hoạ:
+
+  `![Voice Library Demo](path/to/voice-library-demo-image.png)`
+
+- Video demo: 
+
+  `![Voice Library Demo](path/to/voice-library-demo-video.mp4)`
+
 
 ## Quick Start
 
