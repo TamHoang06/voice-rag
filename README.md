@@ -21,13 +21,16 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 ### 1. RAG review
 - Demonstration video: review the RAG workflow, including document ingestion, vector store creation, and model-driven question answering.
 
-- Select chapter & Voice
+- Select chapter & Voice:
 
 <img width="695" height="347" alt="Rag_Select" src="https://github.com/user-attachments/assets/bc018843-3fca-4da7-9259-760318dca412" />
 
 - Placeholder video:
 
 https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
+
+- Divide the document into concise sections:
+
 
 
 ### 2. Text-based Q&A
@@ -57,9 +60,7 @@ https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
 
 ### 6. Record audio assets
 - Demonstration video: record audio directly into the repository and save it for later retrieval or processing.
-- Placeholder image:
 
-  `![Audio Recording](path/to/audio-recording-image.png)`
 - Placeholder video:
 
 
