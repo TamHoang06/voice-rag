@@ -1,5 +1,5 @@
 
-# # AI Voice Agent
+# AI Voice Agent
 
 AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning, STT, document processing (PDF/DOCX), and voice library.
 
@@ -15,6 +15,129 @@ AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS vo
 - **Voice Library**: Upload/customize/reference voices for cloning (active voice auto-use)
 
 - **Production Ready**: Rate limiting, Docker, pytest (8 test files incl. full E2E workflow), health checks
+
+## Project Mechanisms
+
+This project is a Voice Agent built with Python, using FastAPI as the main web framework, integrating Google Gemini 2.5 Flash technologies for text, audio, and automatic podcast content generation. It supports multiple languages (especially Vietnamese), with key mechanisms including Retrieval-Augmented Generation (RAG), Speech-to-Text (STT), Text-to-Speech (TTS), and podcast generation.
+
+### 1. Main Application Startup and Configuration
+   - **Explanation**: The application uses FastAPI to create RESTful APIs. On startup, it loads the vectorstore (for RAG), checks TTS readiness (requires GEMINI_API_KEY), and mounts routers for podcast, document, audio, voices. Includes rate limiting middleware to prevent overload, and serves static HTML pages for web interfaces (e.g., podcast player).
+   - **Special Notes**: The core stack is "Gemini 2.5 Flash - LLM + TTS + STT", meaning all AI tasks rely on Gemini. If API key is missing, TTS/STT will be unavailable. Rate limiting is configurable via env vars, with stricter limits for heavy routes like upload (5 requests/60s).
+   - **Code Snippet** (from `src/main.py`):
+     ```python
+     def _run_startup_tasks() -> None:
+         load_vectorstore()  # Load vectorstore for RAG
+         ready = tts_ready()  # Check TTS readiness
+         logger.info("TTS ready = %s", ready)
+         if not ready:
+             logger.warning("GEMINI_API_KEY not configured in .env: TTS/STT will be unavailable")
+         logger.info("Stack: Gemini 2.5 Flash - LLM + TTS + STT")
+     ```
+     ```python
+     app.add_middleware(
+         RateLimitMiddleware,
+         max_requests=rate_limit_requests(),  # From config, default 60 requests/60s
+         window_seconds=rate_limit_window_seconds(),
+     )
+     ```
+
+### 2. RAG (Retrieval-Augmented Generation) Mechanism
+   - **Explanation**: RAG allows the application to "remember" and retrieve information from documents. Documents (PDF, DOCX, TXT) are loaded, split into chunks (1200 characters, 200 overlap), embedded using HuggingFace multilingual model (`sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`), and stored in FAISS vectorstore. On query, it retrieves relevant chunks and uses Gemini for QA or summarization.
+   - **Special Notes**: Embeddings support multiple languages (including Vietnamese), with lazy loading to save memory. JSON registry stores document metadata, with in-memory cache. Raises error if document is empty after extraction. Image analysis (if images in PDF) uses Gemini for descriptions.
+   - **Code Snippet** (from `src/app/rag/loader.py`):
+     ```python
+     chunks = RecursiveCharacterTextSplitter(
+         chunk_size=1200,
+         chunk_overlap=200,
+     ).split_documents(documents)
+     vector_db = FAISS.from_documents(chunks, get_embeddings())  # Create vectorstore
+     ```
+     (from `src/app/rag/retriever.py`):
+     ```python
+     _QA_PROMPT = (
+         "You are an AI assistant, answer in Vietnamese.\n"
+         "Answer concisely and accurately based on the document content.\n"
+         "If no information: 'No information in the document.'\n\n"
+         "=== Document ===\n{context}\n\n"
+         "=== Question ===\n{question}\n\n"
+         "=== Answer ===\n"
+     )
+     ```
+
+### 3. STT (Speech-to-Text) Mechanism
+   - **Explanation**: Converts audio files (WAV, MP3, etc.) to text using Gemini 2.5 Flash. Supports multiple languages (default vi-VN), estimates duration, and post-processes transcripts (removes extra characters).
+   - **Special Notes**: Only supports formats in `AUDIO_MIME_MAP` (wav, mp3, m4a, etc.). Raises FileNotFoundError if file doesn't exist. Task can be "transcribe" or "translate". Max size 30MB.
+   - **Code Snippet** (from `src/app/stt/stt.py`):
+     ```python
+     def transcribe_audio(
+         audio_path: str,
+         language: str = "vi-VN",  # Default Vietnamese
+         task: str = "transcribe",
+     ) -> dict:
+         raw = _call_gemini_stt(audio_bytes, mime_type, locale, task)
+         text = postprocess_transcript(raw)  # Post-processing
+         duration = _estimate_duration(audio_bytes)
+         return {"text": text, "language": locale, "duration": duration, "segments": []}
+     ```
+
+### 4. TTS (Text-to-Speech) Mechanism
+   - **Explanation**: Converts text to WAV audio using Gemini 2.5 Flash. Supports multiple voices (Kore, Charon, etc.), splits text if too long (4500 chars/chunk), and merges into a single file.
+   - **Special Notes**: Requires GEMINI_API_KEY to function. Voices defined in `GEMINI_VOICES` dict. Skips if text is empty. Default output WAV, can convert formats. Fallback to OpenAI if needed.
+   - **Code Snippet** (from `src/app/tts/tts.py`):
+     ```python
+     GEMINI_VOICES = {
+         "Aoede":   "Aoede — Female, natural",
+         "Charon":  "Charon — Male, deep",
+         # ...
+     }
+     def text_to_speech(text: str, output_path: str = None, voice: str = None) -> str:
+         if not text or not text.strip():
+             raise ValueError("Text is empty")
+         # Split and call Gemini TTS
+     ```
+
+### 5. Podcast Generation Mechanism
+   - **Explanation**: From loaded documents via RAG, uses Gemini to generate Vietnamese podcast scripts, divided into segments (each 150-280 words, 1-2 min read). Then TTS each segment into audio. Scripts cached by document_id.
+   - **Special Notes**: Prompt requires exact number of segments, written naturally as speech. Segments have short titles. QA for listener questions based on script. Audio saved in outputs/.
+   - **Code Snippet** (from `src/app/podcast/agent.py`):
+     ```python
+     _GENERATE_PROMPT = """\
+     You are a professional Vietnamese podcast producer.
+     Task: Convert the document into a fully Vietnamese podcast script, engaging and easy to listen to...
+     Create exactly {num_segments} segments...
+     """
+     ```
+     (from `src/app/podcast/script.py`):
+     ```python
+     @dataclass
+     class PodcastSegment:
+         index: int
+         title: str
+         text: str
+         duration_estimate: float = 0.0
+     ```
+
+### 6. Security and Logging Mechanism
+   - **Explanation**: Uses logger for logging, and rate limiting for API protection. Gemini has safety settings "BLOCK_NONE" for all categories (harassment, hate speech, etc.), allowing freer content.
+   - **Special Notes**: This setting may risk allowing harmful content if used for sensitive material. Route-specific rate limiting (upload/transcribe stricter). Logging aids debugging, but no data encryption.
+   - **Code Snippet** (from `src/app/config.py`):
+     ```python
+     GEMINI_SAFETY_SETTINGS = [
+         {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+         # ...
+     ]
+     def rate_limit_route_policies() -> dict[str, tuple[int, int]]:
+         return {
+             "/upload": (5, 60),  # 5 requests/60s for upload
+         }
+     ```
+
+### General Notes for the Project
+- **AI Dependency**: All rely on Gemini 2.5 Flash, requiring stable API key. If Gemini fails, fallback to OpenAI for TTS.
+- **Language**: Focused on Vietnamese, with prompts and outputs in Vietnamese.
+- **Performance**: Lazy loading embeddings, caching vectorstore/script to avoid reload. Upload size limited (50MB for files, 30MB for audio).
+- **Risks**: "BLOCK_NONE" safety settings may allow harmful content; rate limiting can be bypassed if misconfigured. No default authentication.
+- **Environment**: Runs in Docker, with requirements.txt listing deps like langchain, fastapi, etc.
 
 ## Demo
 ### 1. RAG review
@@ -283,6 +406,3 @@ VOICE-AGENT/
 | Audio | TorchAudio + FFmpeg |
 | Tests | pytest (E2E + unit) |
 | Deploy | Docker Compose |
-
-**Zero-config production → Investor demo-ready! **
-
