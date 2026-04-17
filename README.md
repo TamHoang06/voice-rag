@@ -157,6 +157,12 @@ https://github.com/user-attachments/assets/9281d997-a963-4a61-8baa-2cc8507cdaa3
 
 
 
+https://github.com/user-attachments/assets/2b00977e-c976-46b2-822d-e062b601b719
+
+
+
+
+
 ### 2. Text-based Q&A
 - Demonstration video: interact with the AI Q&A interface by entering text queries and reviewing the system’s responses.
 
