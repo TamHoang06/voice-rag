@@ -1,51 +1,11 @@
-# Python cache
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Virtual environment
-venv/
+*.py[cod]
+*$py.class
 .env
-src/.env
-.venv/
-
-# Git
+.venv
+venv/
+ENV/
 .git/
 .gitignore
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Data & upload
+outputs/
 data/
-
-# Vector store
-vectorstore/
-
-# Model cache
-.cache/
-huggingface/
-*.bin
-*.pt
-*.pth
-
-# Audio output
-*.wav
-*.mp3
-
-# Test / temp files
-test_*.py
-*.tmp
-
-# IDE
-.vscode/
-.idea/
-
-# Docker
-docker-compose.yml
-Dockerfile

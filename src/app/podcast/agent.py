@@ -123,7 +123,6 @@ def generate_podcast_script(
     logger.info("[PODCAST] Generating %d segments from %d chars…", actual_segments, len(text_input))
     raw = _call_gemini(prompt, max_tokens=8192, temperature=0.8)
 
-    # Sử dụng parse_json_response để xử lý JSON an toàn hơn
     data = parse_json_response(raw)
     
     if not data:
