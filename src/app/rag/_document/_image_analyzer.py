@@ -1,4 +1,5 @@
-from typing import Optional, Dict
+import asyncio
+from typing import Optional, Dict, List
 from app.core.gemini_client import call_gemini_with_image, GeminiAPIError
 
 

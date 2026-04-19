@@ -123,19 +123,11 @@ def generate_podcast_script(
     logger.info("[PODCAST] Generating %d segments from %d chars…", actual_segments, len(text_input))
     raw = _call_gemini(prompt, max_tokens=8192, temperature=0.8)
 
-    # Parse JSON — strip ```json wrappers nếu có
-    raw_clean = raw.strip()
-    if raw_clean.startswith("```"):
-        for part in raw_clean.split("```"):
-            if "{" in part:
-                raw_clean = part.lstrip("json").strip()
-                break
-
-    try:
-        data = json.loads(raw_clean)
-        logger.info("[PODCAST] JSON parse OK")
-    except json.JSONDecodeError as e:
-        logger.warning("[PODCAST] JSON parse lỗi: %s — dùng fallback", e)
+    # Sử dụng parse_json_response để xử lý JSON an toàn hơn
+    data = parse_json_response(raw)
+    
+    if not data:
+        logger.warning("[PODCAST] JSON parse thất bại hoặc rỗng — dùng fallback")
         chunk = max(800, len(text) // actual_segments)
         data  = {
             "title":   f"Podcast về {source_name}",
