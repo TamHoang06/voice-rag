@@ -17,11 +17,10 @@ from app.tts import text_to_speech, is_ready as tts_ready, GEMINI_VOICES
 from app.config import gemini_tts_voice
 from app.stt import transcribe_bytes, list_supported_formats
 from app.utils import file_info
+from app.db import db
 
 router = APIRouter(tags=["audio"])
 logger = get_logger(__name__)
-
-_ACTIVE_VOICE_META = os.path.join(VOICES_DIR, "active.json")
 
 
 def _safe_filename(name: str) -> str:
@@ -46,30 +45,6 @@ async def _save_upload_file(file: UploadFile, dest_dir: str) -> str:
     return path
 
 
-def _write_json(path: str, data: dict) -> None:
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-
-def _load_active_voice() -> dict | None:
-    if not os.path.exists(_ACTIVE_VOICE_META):
-        return None
-    with open(_ACTIVE_VOICE_META, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def _save_active_voice_meta(active_filename: str, transcript: str, original_filename: str) -> dict:
-    os.makedirs(VOICES_DIR, exist_ok=True)
-    payload = {
-        "active_filename": active_filename,
-        "original_filename": original_filename,
-        "transcript": transcript,
-        "updated_at": datetime.now().isoformat(),
-    }
-    _write_json(_ACTIVE_VOICE_META, payload)
-    return payload
-
-
 @router.post("/voices/upload")
 async def voice_upload(file: UploadFile = File(...), transcript: str = Form("")):
     """Lưu audio sample và transcript vào thư mục voices."""
@@ -79,8 +54,12 @@ async def voice_upload(file: UploadFile = File(...), transcript: str = Form(""))
         "stored_filename": os.path.basename(path),
         "transcript": transcript,
         "saved_at": datetime.now().isoformat(),
+        "is_active": False
     }
-    _write_json(path + ".json", meta)
+    # Lưu metadata vào MongoDB thay vì file JSON
+    await db.voices.insert_one(meta)
+    if "_id" in meta:
+        meta["_id"] = str(meta["_id"])  # Convert ObjectId sang string để trả về JSON
     return {"message": "Đã lưu giọng lên server", "stored_filename": os.path.basename(path)}
 
 
@@ -98,7 +77,18 @@ async def voice_set_active(file: UploadFile = File(...), transcript: str = Form(
     os.makedirs(VOICES_DIR, exist_ok=True)
     with open(active_path, "wb") as f:
         f.write(contents)
-    meta = _save_active_voice_meta(active_filename, transcript, file.filename)
+
+    # Cập nhật trạng thái active trong MongoDB
+    await db.voices.update_many({}, {"$set": {"is_active": False}})
+    meta = {
+        "active_filename": active_filename,
+        "original_filename": file.filename,
+        "transcript": transcript,
+        "updated_at": datetime.now().isoformat(),
+        "is_active": True
+    }
+    await db.voices.update_one({"active_filename": active_filename}, {"$set": meta}, upsert=True)
+
     logger.info("Set active voice sample %s size=%s bytes", file.filename, len(contents))
     return {"message": "Đã chọn giọng active", "active_filename": active_filename, "meta": meta}
 
@@ -110,7 +100,7 @@ async def text_to_speech_api(request: TTSRequest):
         raise HTTPException(400, "Text không được để trống")
     
     # Kiểm tra có active voice từ voice library không
-    active_meta = _load_active_voice()
+    active_meta = await db.voices.find_one({"is_active": True})
     
     try:
         safe = os.path.basename(request.filename or "tts_output.wav")

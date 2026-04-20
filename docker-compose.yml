@@ -23,3 +23,20 @@ services:
     #         - driver: nvidia
     #           count: 1
     #           capabilities: [gpu]
+
+    services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    env_file:
+      - ./src/.env
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  environment:
+  - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+  - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+
+volumes:
+  mongo_data:
