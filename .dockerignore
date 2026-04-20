@@ -1,23 +1,59 @@
-__pycache__/
+# Environments
+.venv/
+venv/
+env/
+
+# Python cache
+**/__pycache__/
 *.py[cod]
-*$py.class
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-**/.env
-**/.venv
-**/venv/
-**/ENV/
-**/env/
+# Data & Runtime (IMPORTANT: these bloat the image)
+data/
+outputs/
+voices/
+model_cache/
+assets/
+static/
+src/app/data/
+src/app/outputs/
+src/app/voices/
+src/app/vectorstore/
+src/app/static/
 
-**/outputs/
-**/data/
-**/voices/
-vector_db/
-vector_store/
-*.log
+# Testing
+tests/
+pytest.ini
+src/pytest.ini
 
+# Audio / document outputs
+*.wav
+*.mp3
+*.m4a
+*.ogg
+*.flac
+*.webm
+*.mp4
+*.pdf
+*.docx
+
+# Git & IDE
 .git/
-.gitignore
 .vscode/
 .idea/
 
-.pytest_cache/
+# Documentation and Meta (Optional but keeps image clean)
+README.md
+TODO.md
+SECURITY_ROTATION_CHECKLIST.md
+.gitignore
+Dockerfile
+docker-compose.yml
+
+# Local Env
+src/.env
+src/.env.example

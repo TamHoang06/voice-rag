@@ -41,5 +41,8 @@ requests>=2.31.0
 # --- AI Models & API ---
 google-generativeai>=0.5.0
 
+# --- Database ---
+motor>=3.6.0
+
 # --- F5-TTS ---
 f5-tts @ git+https://github.com/SWivid/F5-TTS.git
