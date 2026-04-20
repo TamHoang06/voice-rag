@@ -7,8 +7,9 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - ./src/.env
     volumes:
+      - ./src:/app/src
       - ./outputs:/app/outputs
       - ./data:/app/data
       - ./voices:/app/voices
