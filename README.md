@@ -396,6 +396,7 @@ VOICE-AGENT/
         ├── __init__.py         # Package marker
         ├── config.py           # App settings & Voice configurations
         ├── utils.py            # Shared utility functions
+        ├── db.py               # Database management
         ├── core/               # Central business logic/engine
         ├── document/           # Document parsing & preprocessing
         ├── models/             # Data schemas & Pydantic models
