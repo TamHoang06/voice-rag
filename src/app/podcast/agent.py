@@ -1,5 +1,6 @@
 import json
 from app.core.gemini_client import call_gemini_llm, parse_json_response, GeminiAPIError
+from app.core.logger import get_logger
 from app.podcast.script import PodcastScript, PodcastSegment
 
 # ── Constants ─────────────────────────────────────────────────────────────────
@@ -8,9 +9,6 @@ _MIN_SEGMENT_CHARS = 50
 
 
 # ── Gemini LLM wrapper ────────────────────────────────────────────────────────
-
-from app.core.logger import get_logger
-
 logger = get_logger(__name__)
 
 def _call_gemini(prompt: str, max_tokens: int = 8192, temperature: float = 0.75) -> str:
@@ -182,11 +180,17 @@ def answer_listener_question(
     current_segment: PodcastSegment,
     full_text:       str,
 ) -> str:
-    """Trả lời câu hỏi của người nghe khi pause podcast."""
+    """
+    Trả lời câu hỏi của người nghe. 
+    TODO: Thay thế full_text[:4000] bằng kết quả từ Vector Database.
+    """
+    # Ví dụ: context = vector_db.search(question, top_k=5)
+    context = full_text[:4000] 
+    
     prompt = _QA_PROMPT.format(
         segment_title=current_segment.title,
         segment_text=current_segment.text[:600],
-        full_text=full_text[:4000],
+        full_text=context,
         question=question,
     )
     answer = _call_gemini(prompt, max_tokens=4096, temperature=0.7)

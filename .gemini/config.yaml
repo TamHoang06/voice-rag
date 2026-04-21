@@ -1,0 +1,575 @@
+# Voice Agent Configuration
+
+## Application Configuration
+
+### Core Settings
+```yaml
+app:
+  name: "voice-agent"
+  version: "1.0.0"
+  description: "AI-powered podcast generation platform with RAG, Gemini 2.5 Flash LLM, F5-TTS voice cloning"
+  debug: false
+  
+  # Server configuration
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  
+  # API documentation
+  docs_url: "/docs"
+  redoc_url: "/redoc"
+  openapi_url: "/openapi.json"
+  
+  # Logging
+  log_level: "INFO"
+  log_file: "logs/app.log"
+  log_format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+```
+
+## Gemini API Configuration
+
+### Authentication
+```yaml
+gemini:
+  api_key: "${GEMINI_API_KEY}"  # Required environment variable
+  
+  # Connection settings
+  timeout: 30                     # Seconds
+  max_retries: 3                 # Retry attempts
+  retry_delay: 1                 # Seconds between retries
+  
+  # API version
+  api_version: "v1beta1"
+  
+  # Model configuration
+  model: "gemini-2.5-flash"
+  temperature: 0.7               # For text generation
+  max_tokens: 8192
+```
+
+## RAG (Retrieval-Augmented Generation) Configuration
+
+### Vector Database Settings
+```yaml
+rag:
+  # Vectorstore configuration
+  vectorstore_path: "src/vectorstore"
+  registry_file: "src/vectorstore/registry.json"
+  
+  # Document chunking
+  chunk_size: 1200               # Characters per chunk
+  chunk_overlap: 200             # Character overlap between chunks
+  
+  # Embedding model
+  embedding_model: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+  embedding_dimension: 384
+  
+  # Retrieval settings
+  similarity_metric: "cosine"
+  retrieval_k: 4                 # Number of chunks to retrieve
+  
+  # Supported languages (automatic detection)
+  supported_languages:
+    - "vi-VN"    # Vietnamese
+    - "en-US"    # English
+    - "zh-CN"    # Chinese (Simplified)
+    - "ja-JP"    # Japanese
+    - "ko-KR"    # Korean
+    - "fr-FR"    # French
+```
+
+### Document Processing
+```yaml
+document_processing:
+  # Supported file formats
+  supported_formats:
+    - "pdf"
+    - "docx"
+    - "txt"
+  
+  # File size limits
+  max_file_size: 52428800        # 50MB
+  
+  # Image analysis in documents
+  enable_image_analysis: true
+  min_image_width: 50            # Skip small images (pixels)
+  
+  # Processing timeouts
+  processing_timeout: 300        # Seconds
+  
+  # Text extraction
+  default_language: "vi-VN"
+```
+
+## Text-to-Speech (TTS) Configuration
+
+### Gemini TTS
+```yaml
+tts:
+  # Voice settings
+  default_voice: "Kore"
+  available_voices:
+    - "Aoede"      # Female, natural
+    - "Charon"     # Male, deep
+    - "Fenrir"     # Male, energetic
+    - "Puck"       # Male, playful
+    - "Schedar"    # Female, bright
+    - "Kore"       # Female, warm
+    - "Leda"       # Female, soft
+    - "Orus"       # Male, commanding
+    - "Zephyr"     # Male, smooth
+  
+  # Chunking for long texts
+  max_chunk_size: 4500           # Characters per TTS call
+  
+  # Audio output settings
+  default_output_format: "wav"
+  supported_formats:
+    - "wav"
+    - "mp3"
+    - "m4a"
+    - "ogg"
+    - "flac"
+    - "webm"
+    - "mp4"
+  
+  # Audio merging
+  chunk_padding_ms: 100          # Silence between chunks
+  
+  # API rate limiting
+  rate_limit_delay: 0.3          # Seconds between API calls
+  
+  # Language setting
+  language: "vi-VN"
+```
+
+### Voice Cloning (F5-TTS)
+```yaml
+voice_cloning:
+  # Voice library settings
+  voice_library_path: "src/voices"
+  active_voice_file: "src/voices/active.json"
+  
+  # Voice sample requirements
+  min_sample_duration: 10        # Seconds
+  max_sample_duration: 300       # Seconds
+  
+  # Supported formats for voice samples
+  supported_formats:
+    - "wav"
+    - "mp3"
+    - "m4a"
+    - "ogg"
+    - "flac"
+  
+  # Voice metadata
+  storage_format: "json"
+```
+
+## Speech-to-Text (STT) Configuration
+
+```yaml
+stt:
+  # Language settings
+  default_language: "vi-VN"
+  supported_languages:
+    - "vi-VN"      # Vietnamese
+    - "en-US"      # English (US)
+    - "en-GB"      # English (UK)
+    - "zh-CN"      # Chinese (Simplified)
+    - "zh-TW"      # Chinese (Traditional)
+    - "ja-JP"      # Japanese
+    - "ko-KR"      # Korean
+    - "fr-FR"      # French
+    - "es-ES"      # Spanish
+    - "de-DE"      # German
+  
+  # Input audio settings
+  max_file_size: 31457280        # 30MB
+  supported_formats:
+    - "wav"
+    - "mp3"
+    - "m4a"
+    - "ogg"
+    - "flac"
+    - "webm"
+    - "mp4"
+  
+  # Transcription settings
+  default_task: "transcribe"     # "transcribe" or "translate"
+  
+  # API configuration
+  timeout: 120                   # Seconds (for long audio)
+```
+
+## Podcast Generation Configuration
+
+```yaml
+podcast:
+  # Script generation settings
+  min_segments: 1
+  max_segments: 15
+  default_segments: null         # Auto-calculate
+  
+  # Segment content requirements
+  min_words_per_segment: 150
+  max_words_per_segment: 280
+  words_per_minute: 150          # For duration estimation
+  
+  # Output settings
+  output_path: "src/outputs"
+  default_format: "wav"
+  
+  # Script caching
+  cache_enabled: true
+  cache_path: "src/app/podcast"
+  cache_format: "json"
+  
+  # Language setting
+  language: "vi-VN"
+  tone: "informative"            # "informative", "entertaining", "educational"
+  
+  # Q&A settings
+  qa_context_chunks: 4           # Chunks to retrieve for Q&A
+  qa_language: "vi-VN"           # Q&A response language
+```
+
+## Rate Limiting Configuration
+
+```yaml
+rate_limiting:
+  # Global rate limiting
+  enabled: true
+  
+  # Requests per window
+  default:
+    requests: 60
+    window_seconds: 60
+  
+  # Endpoint-specific limits
+  limits:
+    upload:
+      requests: 5                # Strict limit for upload
+      window_seconds: 60
+    
+    tts:
+      requests: 20
+      window_seconds: 60
+    
+    stt:
+      requests: 20
+      window_seconds: 60
+    
+    ask:
+      requests: 30
+      window_seconds: 60
+    
+    podcast_generate:
+      requests: 10
+      window_seconds: 60
+  
+  # IP-based limits (optional)
+  ip_based: false
+  
+  # User-based limits (optional, if auth implemented)
+  user_based: false
+```
+
+## Database Configuration
+
+```yaml
+database:
+  # SQLite (development)
+  url: "sqlite:///./app.db"
+  
+  # PostgreSQL (production)
+  # url: "postgresql://user:password@host:5432/voice_agent"
+  
+  # Connection settings
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 3600
+  
+  # Echo SQL (debugging)
+  echo: false
+```
+
+## Storage Configuration
+
+```yaml
+storage:
+  # Document storage
+  documents_path: "src/data"
+  
+  # Generated outputs
+  outputs_path: "src/outputs"
+  
+  # Vector database
+  vectorstore_path: "src/vectorstore"
+  
+  # Voice library
+  voices_path: "src/voices"
+  
+  # Model cache
+  model_cache_path: "model_cache"
+  
+  # Temporary files
+  temp_path: "/tmp"
+  temp_cleanup_interval: 3600    # Seconds
+```
+
+## Security Configuration
+
+```yaml
+security:
+  # CORS (Cross-Origin Resource Sharing)
+  cors:
+    enabled: true
+    allow_origins:
+      - "http://localhost:3000"
+      - "http://localhost:8000"
+    allow_credentials: true
+    allow_methods: ["*"]
+    allow_headers: ["*"]
+  
+  # HTTPS
+  https:
+    enabled: false               # Enable in production
+    certfile: "/path/to/cert.pem"
+    keyfile: "/path/to/key.pem"
+  
+  # API key authentication
+  api_key:
+    enabled: false               # Enable in production
+    header_name: "X-API-Key"
+  
+  # JWT tokens (optional)
+  jwt:
+    enabled: false
+    secret_key: "${JWT_SECRET_KEY}"
+    algorithm: "HS256"
+    expiration_minutes: 1440
+  
+  # File upload security
+  file_upload:
+    scan_viruses: false
+    max_file_size: 52428800      # 50MB
+    allowed_extensions:
+      - "pdf"
+      - "docx"
+      - "txt"
+      - "wav"
+      - "mp3"
+      - "m4a"
+      - "ogg"
+      - "flac"
+```
+
+## Logging Configuration
+
+```yaml
+logging:
+  # Log level
+  level: "INFO"
+  
+  # Output destinations
+  outputs:
+    console:
+      enabled: true
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    
+    file:
+      enabled: true
+      path: "logs/app.log"
+      max_size: 10485760         # 10MB
+      backup_count: 5
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Log modules
+  modules:
+    uvicorn: "INFO"
+    fastapi: "INFO"
+    langchain: "WARNING"
+    sentence_transformers: "WARNING"
+    google.auth: "WARNING"
+  
+  # Structured logging
+  structured: true
+  json_format: false
+```
+
+## Performance Configuration
+
+```yaml
+performance:
+  # Caching
+  caching:
+    enabled: true
+    ttl: 3600                    # Time-to-live in seconds
+    max_size: 100                # Max cached items
+  
+  # Async workers
+  async_workers: 4
+  
+  # Thread pool
+  thread_pool_size: 10
+  
+  # Memory limits
+  memory_limit: null             # null = unlimited
+  
+  # Timeouts
+  request_timeout: 30
+  upload_timeout: 300
+```
+
+## Monitoring & Health Check Configuration
+
+```yaml
+monitoring:
+  # Health check endpoint
+  health_check:
+    enabled: true
+    path: "/health"
+    interval_seconds: 30
+  
+  # Components to check
+  components:
+    - "gemini_api"
+    - "vectorstore"
+    - "tts"
+    - "stt"
+    - "database"
+  
+  # Metrics
+  metrics:
+    enabled: false
+    port: 8001
+  
+  # Alerts
+  alerts:
+    enabled: false
+    threshold_error_rate: 0.05   # 5% error rate
+    threshold_response_time: 5   # 5 seconds
+```
+
+## Model Configuration
+
+```yaml
+models:
+  # Embedding model
+  embedding:
+    name: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    dimension: 384
+    cache_path: "model_cache"
+    device: "cpu"                # "cpu" or "cuda"
+  
+  # Caching
+  cache_models: true
+  use_safetensors: true          # Faster model loading
+```
+
+## Environment Variable Mappings
+
+```yaml
+# These env vars override config file values
+environment_variables:
+  GEMINI_API_KEY: "gemini.api_key"
+  DATABASE_URL: "database.url"
+  RATE_LIMIT_REQUESTS: "rate_limiting.default.requests"
+  RATE_LIMIT_WINDOW: "rate_limiting.default.window_seconds"
+  DEBUG: "app.debug"
+  LOG_LEVEL: "logging.level"
+  PORT: "app.port"
+  HOST: "app.host"
+```
+
+## Development vs Production Configuration
+
+### Development (.env.development)
+```yaml
+app:
+  debug: true
+  log_level: "DEBUG"
+
+gemini:
+  timeout: 30
+
+database:
+  url: "sqlite:///./app.db"
+
+security:
+  cors:
+    allow_origins: ["*"]
+```
+
+### Production (.env.production)
+```yaml
+app:
+  debug: false
+  log_level: "INFO"
+  workers: 4
+
+gemini:
+  timeout: 60
+  max_retries: 5
+
+database:
+  url: "postgresql://user:pass@prod-db:5432/voice_agent"
+
+security:
+  cors:
+    allow_origins: ["https://yourdomain.com"]
+  https:
+    enabled: true
+  api_key:
+    enabled: true
+```
+
+## Configuration Loading Order
+
+1. Default values in code
+2. `config.yaml` file
+3. Environment variables (override config.yaml)
+4. Runtime configuration updates
+
+Example:
+```python
+# src/app/config.py
+import os
+import yaml
+
+# Load YAML config
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
+
+# Override with environment variables
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", config["gemini"]["api_key"])
+RATE_LIMIT_REQUESTS = int(os.getenv("RATE_LIMIT_REQUESTS", config["rate_limiting"]["default"]["requests"]))
+```
+
+## Configuration Validation
+
+```python
+# Validate configuration on startup
+def validate_config():
+    """Validate configuration settings."""
+    
+    # Check required values
+    if not GEMINI_API_KEY:
+        logger.warning("GEMINI_API_KEY not configured: TTS/STT unavailable")
+    
+    # Validate paths exist
+    if not os.path.exists(VECTORSTORE_PATH):
+        logger.info(f"Creating {VECTORSTORE_PATH}")
+        os.makedirs(VECTORSTORE_PATH, exist_ok=True)
+    
+    # Validate settings
+    if CHUNK_SIZE < 100:
+        raise ValueError("CHUNK_SIZE must be >= 100")
+    
+    if CHUNK_OVERLAP >= CHUNK_SIZE:
+        raise ValueError("CHUNK_OVERLAP must be < CHUNK_SIZE")
+    
+    logger.info("Configuration validation passed")
+```
