@@ -33,6 +33,7 @@ Yêu cầu nghiêm ngặt:
 - Viết như lời nói tự nhiên: câu ngắn, có từ chuyển tiếp.
 - Không dùng markdown, bullet points, hay định dạng đặc biệt.
 - Mỗi segment phải có tiêu đề ngắn gọn (5-8 từ).
+- Gán nhãn cảm xúc ('emotion') cho mỗi segment phù hợp với nội dung (ví dụ: 'vui_ve', 'tram_lang', 'hao_hung', 'nghiem_tuc').
 
 Trả về CHỈ JSON theo đúng format sau, không thêm bất kỳ chữ nào khác:
 
@@ -43,7 +44,8 @@ Trả về CHỈ JSON theo đúng format sau, không thêm bất kỳ chữ nào
     {{
       "index": 0,
       "title": "Tiêu đề segment",
-      "text": "Nội dung script đọc to..."
+      "text": "Nội dung script đọc to...",
+      "emotion": "vui_ve"
     }}
   ]
 }}
@@ -146,6 +148,7 @@ def generate_podcast_script(
             index=len(segments),
             title=str(seg.get("title", f"Phần {len(segments)+1}")),
             text=txt,
+            emotion=str(seg.get("emotion", "binh_thuong")),
             duration_estimate=round(len(txt.split()) / 150 * 60, 1),
         ))
 

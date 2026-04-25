@@ -114,6 +114,9 @@ async def text_to_speech_api(request: TTSRequest):
         if request.voice:
             if not tts_ready():
                 raise HTTPException(503, "TTS chưa sẵn sàng — kiểm tra GEMINI_API_KEY")
+            
+            logger.info("Generating Gemini TTS with voice %s and style context", request.voice)
+            
             text_to_speech(text=request.text, output_path=outpath, voice=request.voice)
             return {
                 "message":      "Đã tạo audio bằng Gemini TTS",
@@ -129,7 +132,11 @@ async def text_to_speech_api(request: TTSRequest):
         # speaker_audio chỉ dùng để học giọng, KHÔNG copy ra output
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         if active_meta:
-            active_audio_path = os.path.join(VOICES_DIR, active_meta["active_filename"])
+            # NÂNG CẤP: Tìm file audio mẫu phù hợp với cảm xúc nếu có
+            # Nếu request có style 'vui_ve', tìm file 'active_vui_ve.wav'
+            # Hiện tại vẫn dùng file active mặc định:
+            active_audio_path = os.path.join(VOICES_DIR, active_meta["active_filename"]) 
+            
             if not os.path.exists(active_audio_path):
                 raise HTTPException(
                     404, 

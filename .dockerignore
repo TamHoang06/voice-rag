@@ -43,8 +43,11 @@ src/pytest.ini
 
 # Git & IDE
 .git/
+.github/
 .vscode/
 .idea/
+
+.gemini/
 
 # Documentation and Meta (Optional but keeps image clean)
 README.md
